@@ -1,13 +1,34 @@
-# This is a sample Python script.
+import sys
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from PyQt5.QtGui import QPainter, QColor
+from PyQt5 import uic
+
+from PyQt5.QtCore import QRect
+from PyQt5.QtWidgets import QMainWindow, QApplication
+from random import randint
 
 
-def print_hi(name):
-    print(f'Hi, {name}')
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('design.ui', self)
+        self.bt.clicked.connect(self.run)
+
+    def run(self):
+        self.repaint()
+
+    def paintEvent(self, event):
+        qp = QPainter()
+        qp.begin(self)
+        qp.setBrush(QColor(255, 255, 0))
+
+        side = randint(0, 255)
+        qp.drawEllipse(QRect(randint(0, 500), randint(0, 500), side, side))
+        qp.end()
 
 
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
+    app = QApplication(sys.argv)
+    ex = MainWindow()
+    ex.show()
+    sys.exit(app.exec_())
